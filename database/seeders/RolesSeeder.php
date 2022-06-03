@@ -35,7 +35,13 @@ class RolesSeeder extends Seeder
                 'name' => 'Administrador',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
-            ]]);
+            ],
+            [
+                'name' => 'Autor', 
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]
+        ]);
     }
 
 }

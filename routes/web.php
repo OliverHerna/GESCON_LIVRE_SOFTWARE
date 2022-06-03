@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\ArticleController;
+
+use App\Http\Controllers\SubjectController;
+use App\Models\Subject;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,6 +43,19 @@ Route::resource('roles', 'App\Http\Controllers\RoleController')->parameters(
         'roles' => 'role',
     ]
 )->middleware(['auth']);
+
+Route::resource('articles', ArticleController::class)->parameters([
+    'articles' => 'article'
+]);
+
+Route::post('articles/attachFile', [ArticleController::class, 'attachArticle'])->name('article.document');
+
+Route::get('/autors', 'App\Http\Controllers\ArticleController@storeAutor')->middleware(['auth'])->name('article.create_autor');
+
+
+Route::resource('subjects', SubjectController::class)->parameters([
+    'subjects' => 'subject' 
+]);
 
 Route::post('/role_user', 'App\Http\Controllers\RoleController@roleUserAssigment')->middleware(['auth'])->name('role_user');
 

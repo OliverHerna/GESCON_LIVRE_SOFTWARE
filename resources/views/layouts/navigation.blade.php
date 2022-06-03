@@ -10,6 +10,20 @@
                     </a>
                 </div>
 
+                <?php $roles_array = array();
+                $user = Auth::user(); ?>
+                @foreach ($user->roles as $role)
+                    {{ array_push($roles_array, $role->id) }}
+                @endforeach
+
+                @if(in_array(5, $roles_array))
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('articles.index')" :active="request()->routeIs('articles.index')">
+                        {{ __('Artículos') }}
+                    </x-nav-link>
+                </div>
+
+                @else
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
@@ -26,6 +40,12 @@
                         {{ __('Roles') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('subjects.index')" :active="request()->routeIs('subjects.index')">
+                        {{ __('Temas') }}
+                    </x-nav-link>
+                </div>
+                @endif
             </div>
 
             <!-- Settings Dropdown -->
