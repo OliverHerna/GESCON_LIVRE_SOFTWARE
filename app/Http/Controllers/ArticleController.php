@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Article;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Autor;
 use App\Models\Subject;
@@ -26,6 +27,15 @@ class ArticleController extends Controller
 
 
         return view('articles.articles')->with([
+            'articles' => $articles,
+        ]);
+    }
+
+    public function adminIndex()
+    {
+        $articles = Article::all();
+
+        return view('articles.adminArticles')->with([
             'articles' => $articles,
         ]);
     }
@@ -131,6 +141,25 @@ class ArticleController extends Controller
             return $e;
         }
         return 'Articulo Subido Correctamente';
+    }
+
+    public function assignArticle(Article $article){
+        return view('articles.assign')->with([
+            'article' => $article,
+        ]);
+    }
+
+    public function attachUserArticle(Request $request){
+        DB::beginTransaction();
+        try{
+            $user = User::find($request->user);
+            $article = Article::find($request->article);
+            $article->users()->attach($user);
+            DB::commit();
+        }catch(\Exception $e){
+            return $e;
+        }
+        return 'Se asigno correctamente el articulo';
     }
 
     /**

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Autor;
 use App\Models\Document;
+use App\Models\User;
 
 class Article extends Model
 {
@@ -21,6 +22,10 @@ class Article extends Model
 
     public function documents(){
         return $this->belongsToMany(Document::class);
+    }
+
+    public function users(){
+        return $this->belongsToMany(User::class)->withTimestamps();
     }
 }
 

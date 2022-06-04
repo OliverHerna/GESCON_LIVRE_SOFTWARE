@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subject;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreSubjectRequest;
 use Illuminate\Support\Facades\DB;
@@ -16,10 +17,28 @@ class SubjectController extends Controller
      */
     public function index()
     {
+        //Only get a kind of users
+        $users = User::all();
         $subjects = Subject::all();
         return view('subjects.index')->with([
             'subjects' => $subjects,
+            'users' => $users,
         ]);
+    }
+
+    public function subjectUserAssigment(Request $request){
+        DB::beginTransaction();
+        try{
+            $user = User::find($request->user);
+            $subject = Subject::find($request->subject);
+            $user->subjects()->attach($subject);
+            DB::commit();
+        }catch(\Exception $e){
+            DB::rollBack();
+            echo $e;
+            //abort('500');
+        }
+        return 'Se asigno correctamente el rol';
     }
 
     /**
