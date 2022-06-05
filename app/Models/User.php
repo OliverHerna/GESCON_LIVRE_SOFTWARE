@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Article;
+use App\Models\Event;
 
 class User extends Authenticatable
 {
@@ -53,5 +54,9 @@ class User extends Authenticatable
 
     public function articles(){
         return $this->belongsToMany(Article::class)->withTimestamps();
+    }
+
+    public function events(){
+        return $this->belongsToMany(Event::class)->withTimestamps();
     }
 }

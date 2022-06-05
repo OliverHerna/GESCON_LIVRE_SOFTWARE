@@ -3,9 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ArticleController;
-
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\SessionController;
 use App\Http\Controllers\SubjectController;
-use App\Models\Subject;
+use App\Models\Event;
+use App\Models\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +31,13 @@ Route::post('register', [RegisteredUserController::class, 'store'])
                 ->middleware(['auth']);
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+
+    $events = Event::all();
+    $sessions = Session::all();
+    return view('dashboard')->with([
+        'events' => $events,
+        'sessions' => $sessions,
+    ]); 
 })->middleware(['auth'])->name('dashboard');
 
 Route::resource('users', 'App\Http\Controllers\UserController')->parameters(
@@ -64,6 +72,26 @@ Route::get('/autors', 'App\Http\Controllers\ArticleController@storeAutor')->midd
 Route::resource('subjects', SubjectController::class)->parameters([
     'subjects' => 'subject' 
 ]);
+
+//Session Routes
+Route::resource('sessions', SessionController::class)->parameters([
+    'sessions' => 'session'
+]);
+
+Route::get('sessions/articles/{session}', [SessionController::class, 'assignArticleView'])
+->name('sessions.articles');
+
+Route::post('sessions/articles', [SessionController::class, 'assignArticleToSession'])
+->name('sessions.articles_store');
+
+//Event Routes
+Route::resource('events', EventController::class)->parameters([
+    'events' => 'event'
+]);
+
+Route::get('events/user_view/{event}', [EventController::class, 'assignManagerView'])->name('event.user_view');
+
+Route::post('events/user', [EventController::class, 'assignManager'])->name('event.user');
 
 Route::post('/role_user', 'App\Http\Controllers\RoleController@roleUserAssigment')->middleware(['auth'])->name('role_user');
 

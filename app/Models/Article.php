@@ -7,10 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Autor;
 use App\Models\Document;
 use App\Models\User;
+use App\Models\Session;
 
 class Article extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'presentation_hour_begin',
+        'presentation_hour_end',
+    ];
 
     public function autors(){
         return $this->belongsToMany(Autor::class);
@@ -26,6 +32,10 @@ class Article extends Model
 
     public function users(){
         return $this->belongsToMany(User::class)->withTimestamps();
+    }
+
+    public function sessions(){
+        return $this->belongsToMany(Session::class);
     }
 }
 

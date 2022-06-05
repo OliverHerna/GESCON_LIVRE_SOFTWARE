@@ -13,7 +13,7 @@
                 <?php $roles_array = array();
                 $user = Auth::user(); ?>
                 @foreach ($user->roles as $role)
-                    {{ array_push($roles_array, $role->id) }}
+                <?php array_push($roles_array, $role->id) ?>
                 @endforeach
 
                 @if(in_array(5, $roles_array))

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateArticlesTable extends Migration
+class CreateSessionArticleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateArticlesTable extends Migration
      */
     public function up()
     {
-        Schema::create('articles', function (Blueprint $table) {
+        Schema::create('article_session', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('distribution_date')->nullable();
-            $table->string('presentation_hour_begin')->nullable();
-            $table->string('presentation_hour_end')->nullable();
+            $table->bigInteger('session_id');
+            $table->bigInteger('article_id');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateArticlesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('articles');
+        Schema::dropIfExists('session_article');
     }
 }
